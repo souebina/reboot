@@ -17,7 +17,7 @@ cart = {}
   puts "In our store today:"
 
   items.each{|item, price|
-     puts "#{item}" + " - " + "#{price}"
+     puts "#{item}" + " - " + "#{price} JPY"
   }
 
   until purchase == "q"
@@ -30,10 +30,12 @@ cart = {}
         else
           cart[purchase] = items[purchase]
         end
-    else
+    elsif purchase != "q"
       puts "#{purchase} is not an available item.Pleaes enter another."
+    else
+      puts "Your total comes to #{checkout(cart)} JPY"
     end
   end
 
-  puts cart
-  #puts checkout(cart)
+  #puts cart
+  #puts "Your total amount is #{checkout(cart)}-JPY"
