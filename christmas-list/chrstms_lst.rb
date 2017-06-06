@@ -14,11 +14,9 @@ end
 def add(giftlist, purchase)
   if giftlist.has_key?(purchase)
       puts "You had already have #{purchase} on your list."
-      list(giftlist)
   else
       giftlist.store(purchase,"")
       puts "Added #{purchase} in your list."
-      list(giftlist)
   end
 end
 
@@ -26,10 +24,8 @@ def delete(giftlist, purchase)
   if giftlist.has_key?(purchase)
       giftlist.delete(purchase)
       puts "Deleted #{purchase} from your list."
-      list(giftlist)
   else
       puts "#{purchase} is not on your list."
-      list(giftlist)
   end
 end
 
@@ -38,10 +34,8 @@ def mark(giftlist, purchase)
     if giftlist[purchase] != "X"
       giftlist[purchase] = "X"
       puts "Marked #{purchase} as finished"
-      list(giftlist)
     else
       puts "You had already checked #{purchase}."
-      list(giftlist)
     end
   else
     puts "Created new list #{purchase} with Marked"
