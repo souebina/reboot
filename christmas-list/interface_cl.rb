@@ -1,5 +1,7 @@
 require_relative './chrstms_lst'
 
+# [{name: "shoes" , status: true}]
+
 giftlist = {
           "sockets" => "",
           "ruby book" => "",

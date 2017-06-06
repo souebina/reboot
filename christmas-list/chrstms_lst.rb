@@ -64,6 +64,7 @@ doc.search(".card").each_with_index do |card, i|
   search_result.store(i + 1,title)
 end
 
+puts "Here are Etsy results for #{article}:"
 search_result.each{|id, title|
     puts "#{id}" + " - " + "#{title}"
 }
