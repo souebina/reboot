@@ -10,61 +10,56 @@ def list(gifts)
 end
 
 def add(gifts, purchase)
-  gifts.each_with_index do |gift, index|
-    if gift[:name].include?(purchase)
-      gift = { name: new_present, status: false}
-      gifts << gift unless gifts.include?(gift)
-      puts "You had already have #{purchase} on your list."
-    else
-      gifts << { name: purchase, status: false}
-      puts "Added #{purchase} in your list."
-    end
-  end
+      gift = {}
+      gift = { name: purchase, status: false}
+      if gifts.include?(gift)
+        puts "You had already have #{gift[:name]} on your list."
+      else
+        gifts << gift
+        puts "Added #{gift[:name]} in your list."
+      end
 end
 
-
-def delete(gifts, purchase)
-  if gifts.has_key?(purchase)
-      gifts.delete(purchase)
-      puts "Deleted #{purchase} from your list."
-  else
-      puts "#{purchase} is not on your list."
-  end
+def delete(gifts, index)
+  deleted = gifts.delete_at(index)
+  puts "#{deleted[:name]} has been removed" if deleted
 end
 
-def mark(gifts, purchase)
-  if giftlist.has_key?(purchase)
-    if giftlist[purchase] != "X"
-      giftlist[purchase] = "X"
-      puts "Marked #{purchase} as finished"
-    else
-      puts "You had already checked #{purchase}."
-    end
-  else
-    puts "Created new list #{purchase} with Marked"
-  end
+def mark(gifts, index)
+  gift = gifts[index]
+  gift[:status] = !gift[:status]
 end
 
 def idea(gifts, article)
-search_result = {}
+  ideas = scrape_etsy(article) # => array of titles
+  puts "how many elements do you want to see?"
+  number = gets.chomp.to_i
+  ideas[0,number].each_with_index do |idea, index|
+    puts "#{index + 1}. #{idea}"
+  end
 
-# 1. We get the HTML file thanks to open-uri
-file = open("https://www.etsy.com/search?q=#{article}")
-
-# 2. We build a Nokogiri document from this file
-doc = Nokogiri::HTML(file)
-
-# 3. We search every elements with class="card" in our HTML doc
-doc.search(".card").each_with_index do |card, i|
-  # 4. for each element found, we extract its title and print it
-  title = card.search(".card-title").text.strip
-  search_result.store(i + 1,title[0,50])
+  puts "Pick one to add it to your list [give the number]"
+  index = gets.chomp.to_i - 1
+    title = ideas[index]
+    idea = {name: title, status: false}
+    gifts << idea
 end
 
-puts "Here are Etsy results for #{article}:"
-search_result.each{|id, title|
-    puts "#{id}" + " - " + "#{title}"
-}
 
-return search_result
+def scrape_etsy(term)
+  # 1. We get the HTML file thanks to open-uri
+  file = open("https://www.etsy.com/search?q=#{term}")
+
+  # 2. We build a Nokogiri document from this file
+  doc = Nokogiri::HTML(file)
+
+  # 3. We search every elements with class="card" in our HTML doc
+  ideas = []
+  doc.search(".card").each do |card|
+    # 4. for each element found, we extract its title and print it
+    title = card.search(".card-title").text.strip
+    # puts title[0,40]
+    ideas << title[0,50]
+  end
+  return ideas
 end

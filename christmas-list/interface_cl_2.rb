@@ -12,6 +12,7 @@ running = true
 
 action_list = "[list|add|delete|mark|idea|quit]"
 input = ""
+index = 0
 
 puts "--------------------"
 puts "Welcome to your Christmas giftlist"
@@ -31,27 +32,23 @@ while running
       add(gifts, purchase)
       list(gifts)
     when "delete" then
-      puts "Which item to delete from giftlist?"
+      puts "Which item do you want to delete?(give the number)"
       print ">"
-      purchase = gets.chomp
-      delete(gifts, purchase)
+      index = gets.chomp.to_i - 1
+      delete(gifts, index)
       list(gifts)
     when "mark" then
-      puts "Which item to mark from giftlist?"
+      puts "What did you buy?(give the number)"
       print ">"
-      purchase = gets.chomp
-      mark(gifts, purchase)
+      index = gets.chomp.to_i - 1
+      mark(gifts, index)
       list(gifts)
     when "idea" then
       etsy_hash = {}
       puts "What are you searching on Etsy?"
       print ">"
       article = gets.chomp
-      etsy_hash = idea(gifts, article)
-      puts "Pick one to add to your list (give the number)"
-      print ">"
-      etsy_id = gets.chomp.to_i
-      add(gifts, etsy_hash[etsy_id])
+      idea(gifts, article)
       list(gifts)
     when "quit" then
       puts "Goodbye"
