@@ -1,3 +1,6 @@
+# scraping_etsy.rb
+require "open-uri"
+require "nokogiri"
 
 def list(giftlist)
   counter = 1
@@ -45,6 +48,29 @@ def mark(giftlist, purchase)
   end
 end
 
+def idea(giftlist, article)
+search_result = {}
+
+# 1. We get the HTML file thanks to open-uri
+file = open("https://www.etsy.com/search?q=#{article}")
+
+# 2. We build a Nokogiri document from this file
+doc = Nokogiri::HTML(file)
+
+# 3. We search every elements with class="card" in our HTML doc
+
+doc.search(".card").each_with_index do |card, i|
+  # 4. for each element found, we extract its title and print it
+  title = card.search(".card-title").text.strip
+  search_result.store(i + 1,title)
+end
+
+search_result.each{|id, title|
+    puts "#{id}" + " - " + "#{title}"
+}
+
+return search_result
+end
 
 =begin
     if giftlist[purchase] != "X"

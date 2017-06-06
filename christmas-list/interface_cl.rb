@@ -6,6 +6,7 @@ giftlist = {
           "macbook pro" => ""
         }
 
+action_list = "[list|add|delete|mark|idea|quit]"
 action = ""
 
 puts "--------------------"
@@ -14,7 +15,7 @@ puts "--------------------"
 
 #### Get user action ####
 until action.downcase == "quit"
-  puts "Which action [list|add|delete|mark|quit]?"
+  puts "Which action #{action_list}?"
   action = gets.chomp
   case action
     when "list" then
@@ -35,6 +36,20 @@ until action.downcase == "quit"
       print ">"
       purchase = gets.chomp
       mark(giftlist, purchase)
+    when "idea" then
+      #puts "idea"
+      etsy_hash = {}
+      puts "What are you searching on Etsy?"
+      print ">"
+      article = gets.chomp
+      etsy_hash = idea(giftlist, article)
+      puts etsy_hash
+      puts "Pick one to add to your list (give the number)"
+      print ">"
+      etsy_id = gets.chomp.to_i
+      #puts etsy_id
+      #uts etsy_hash[etsy_id]
+      add(giftlist, etsy_hash[etsy_id])
     when "quit" then
       puts "Goodbye"
     else
