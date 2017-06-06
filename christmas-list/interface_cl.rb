@@ -41,7 +41,6 @@ until action.downcase == "quit"
       print ">"
       article = gets.chomp
       etsy_hash = idea(giftlist, article)
-      puts etsy_hash
       puts "Pick one to add to your list (give the number)"
       print ">"
       etsy_id = gets.chomp.to_i
