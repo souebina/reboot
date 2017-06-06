@@ -2,32 +2,37 @@
 require "open-uri"
 require "nokogiri"
 
-def list(giftlist)
-  giftlist.each_with_index do |gift, index|
+def list(gifts)
+  gifts.each_with_index do |gift, index|
     bought = gift[:status] ? "[x]" : "[ ]"
     puts "#{index + 1}. #{bought} #{gift[:name]}"
   end
 end
 
-def add(giftlist, purchase)
-  if giftlist.has_key?(purchase)
+def add(gifts, purchase)
+  gifts.each_with_index do |gift, index|
+    if gift[:name].include?(purchase)
+      gift = { name: new_present, status: false}
+      gifts << gift unless gifts.include?(gift)
       puts "You had already have #{purchase} on your list."
-  else
-      giftlist.store(purchase,"")
+    else
+      gifts << { name: purchase, status: false}
       puts "Added #{purchase} in your list."
+    end
   end
 end
 
-def delete(giftlist, purchase)
-  if giftlist.has_key?(purchase)
-      giftlist.delete(purchase)
+
+def delete(gifts, purchase)
+  if gifts.has_key?(purchase)
+      gifts.delete(purchase)
       puts "Deleted #{purchase} from your list."
   else
       puts "#{purchase} is not on your list."
   end
 end
 
-def mark(giftlist, purchase)
+def mark(gifts, purchase)
   if giftlist.has_key?(purchase)
     if giftlist[purchase] != "X"
       giftlist[purchase] = "X"
@@ -40,7 +45,7 @@ def mark(giftlist, purchase)
   end
 end
 
-def idea(giftlist, article)
+def idea(gifts, article)
 search_result = {}
 
 # 1. We get the HTML file thanks to open-uri
@@ -53,7 +58,7 @@ doc = Nokogiri::HTML(file)
 doc.search(".card").each_with_index do |card, i|
   # 4. for each element found, we extract its title and print it
   title = card.search(".card-title").text.strip
-  search_result.store(i + 1,title)
+  search_result.store(i + 1,title[0,50])
 end
 
 puts "Here are Etsy results for #{article}:"
