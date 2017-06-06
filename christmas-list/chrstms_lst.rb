@@ -58,7 +58,6 @@ file = open("https://www.etsy.com/search?q=#{article}")
 doc = Nokogiri::HTML(file)
 
 # 3. We search every elements with class="card" in our HTML doc
-
 doc.search(".card").each_with_index do |card, i|
   # 4. for each element found, we extract its title and print it
   title = card.search(".card-title").text.strip
@@ -71,32 +70,3 @@ search_result.each{|id, title|
 
 return search_result
 end
-
-=begin
-    if giftlist[purchase] != "X"
-      giftlist[purchase] = "X"
-      puts "Added #{purchase} in your cart."
-    else
-      puts "You had already bought #{purchase}."
-    end
-  elsif purchase != "quit"
-      puts "#{purchase} is not an available item.Pleaes enter another."
-  else    #list(giftlist)
-end
-=end
-
-
-=begin
-  if items.has_key?(purchase)
-    if cart.key?(purchase)
-          cart[purchase] += items[purchase]
-    else
-          cart[purchase] = items[purchase]
-    end
-  elsif purchase != "q"
-      puts "#{purchase} is not an available item.Pleaes enter another."
-  else
-      puts "Your total comes to #{checkout(cart)} JPY"
-  end
-end
-=end

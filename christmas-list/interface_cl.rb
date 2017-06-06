@@ -31,13 +31,11 @@ until action.downcase == "quit"
       purchase = gets.chomp
       delete(giftlist, purchase)
     when "mark" then
-      #puts "mark"
       puts "Which item to mark from giftlist?"
       print ">"
       purchase = gets.chomp
       mark(giftlist, purchase)
     when "idea" then
-      #puts "idea"
       etsy_hash = {}
       puts "What are you searching on Etsy?"
       print ">"
@@ -47,8 +45,6 @@ until action.downcase == "quit"
       puts "Pick one to add to your list (give the number)"
       print ">"
       etsy_id = gets.chomp.to_i
-      #puts etsy_id
-      #uts etsy_hash[etsy_id]
       add(giftlist, etsy_hash[etsy_id])
     when "quit" then
       puts "Goodbye"
